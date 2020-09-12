@@ -61,6 +61,16 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-12 pt-4 mt-2">
+            <p class="text-muted text-center text-small">
+                Your privacy matters!
+                <br />
+                That's why this application only saves a sha256 hashed string based on your current ip
+                <br />
+                and user agent for a short period of time (~{{ .SessionLifetime }}).
+            </p>
+        </div>
     </div>
 
     {{ template "layout/footer" }}

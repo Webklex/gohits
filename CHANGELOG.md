@@ -10,6 +10,7 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Added
 - Handle camouflaged requests as unique hit
+- Output session lifetime on index
 
 ## [1.0.0] - 2020-09-12
 - Initial release

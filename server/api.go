@@ -20,7 +20,7 @@ func (s *Server) handleRequest(writer writerFunc) http.HandlerFunc {
 }
 
 func (s *Server) indexResponse(r *http.Request) interface{} {
-	return nil
+	return s.Config
 }
 
 func (s *Server) jsonResponse(w http.ResponseWriter, r *http.Request) {
