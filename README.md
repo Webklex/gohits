@@ -28,6 +28,7 @@ Generate your own: [hits.webklex.com](https://hits.webklex.com)
     - [JSON](#json)
   - [Websocket](#websocket)
 - [Build](#build)
+- [Service](#service)
 - [Support](#support)
 - [Security](#security)
 - [Credits](#credits)
@@ -239,6 +240,36 @@ You can subscribe to specific channels or to `all` in order to receive all recen
 You can build your own binaries by calling `build.sh`
 ```bash
 build.sh build_dir
+```
+
+### Service
+Create a new file like `/etc/systemd/system/gohits.service` and add the following:
+```
+[Unit]
+Description=GoHits
+After=multi-user.target
+After=syslog.target
+After=network-online.target
+
+[Service]
+Type=simple
+
+User=www-data
+Group=www-data
+
+WorkingDirectory=/opt/gohits
+ExecStart=/opt/gohits/gohits
+
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Start the service and check for any errors.
+```bash
+systemctl start gohits.service
 ```
 
 ### Features & pull requests
