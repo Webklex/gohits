@@ -9,7 +9,7 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 - NaN
 
 ### Added
-- NaN
+- Handle camouflaged requests as unique hit
 
 ## [1.0.0] - 2020-09-12
 - Initial release
