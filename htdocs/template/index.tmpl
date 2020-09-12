@@ -1,0 +1,67 @@
+{{ define "index" }}
+    {{ template "layout/header" }}
+
+    <div class="pt-4 text-center">
+        <h1>
+            GoHits visitor counter
+        </h1>
+        <p class="lead pb-0 mb-2">
+            An easy way to track your page or project views ("hits") of any GitHub or online project.
+        </p>
+        <img src="https://hits.webklex.com/svg/webklex/gohits" alt="Hits" />
+        <img src="https://img.shields.io/github/downloads/webklex/gohits/total?style=flat-square" alt="Total Downloads" />
+        <img src="https://img.shields.io/github/v/release/webklex/gohits?style=flat-square" alt="Latest Stable Version" />
+        <img src="https://img.shields.io/github/license/webklex/gohits?style=flat-square" alt="License" />
+        <img src="https://img.shields.io/website?down_message=Offline&label=Demo&style=flat-square&up_message=Online&url=https%3A%2F%2Fhits.webklex.com%2F" alt="Demo status" />
+        <br />
+        <a href="https://github.com/webklex/gohits" class="btn btn-lg btn-outline-primary mt-4">Fork on Github</a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-xl-4 offset-xl-2 offset-md-0 mt-4">
+            <div class="row">
+                <div class="col-12 mt-2">
+                    <h2>Generate your own</h2>
+
+                    <div class="form-group">
+                        <label for="generator-username">Username or Organisation</label>
+                        <input type="text" class="form-control"
+                               id="generator-username" name="username" value="" placeholder="webklex">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="generator-repository">Project or Repository</label>
+                        <input type="text" class="form-control"
+                               id="generator-repository" name="repository" value="" placeholder="gohits">
+                    </div>
+                </div>
+                <div class="col-12 mb-2">
+                    <strong>Markdown:</strong>
+                    <br />
+                    <code id="generator-result-markdown"></code>
+                </div>
+                <div class="col-12 mb-2">
+                    <strong>HTML:</strong>
+                    <br />
+                    <code id="generator-result-html"></code>
+                </div>
+                <div class="col-12">
+                    <strong>Shield / Badge:</strong>
+                    <br />
+                    <img src="#" id="generator-result-image" alt="Hits" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-5 offset-xl-1 mt-4">
+            <div class="row">
+                <div class="col-12 mt-2">
+                    <h2>Latest activities</h2>
+                    <code id="activity-feed"></code>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ template "layout/footer" }}
+{{ end }}
