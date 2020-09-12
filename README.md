@@ -1,10 +1,10 @@
 # GoHits visitor counter
 
-[![Hits][link-hits]][link-website]
-[![Total Downloads][link-downloads]][link-releases]
-[![Latest Stable Version][link-version]][link-releases]
-[![License][link-version]](LICENSE.md)
-[![Website status][link-status]][link-website]
+[![Hits][ico-hits]][link-website]
+[![Total Downloads][ico-downloads]][link-releases]
+[![Latest Stable Version][ico-version]][link-releases]
+[![License][ico-license]](LICENSE.md)
+[![Website status][ico-status]][link-website]
 
 ## Description
 An easy way to track your page or project views ("hits") of any GitHub or online project.
@@ -271,12 +271,13 @@ If you discover any security related issues, please email github@webklex.com ins
 ## License
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[link-downloads]: https://img.shields.io/github/downloads/webklex/gohits/total?style=flat-square
-[link-version]: https://img.shields.io/github/license/webklex/gohits?style=flat-square
-[link-license]: https://hits.webklex.com
+[ico-hits]: https://hits.webklex.com/svg/webklex/gohits
+[ico-downloads]: https://img.shields.io/github/downloads/webklex/gohits/total?style=flat-square
+[ico-version]: https://img.shields.io/github/v/release/webklex/gohits?style=flat-square
+[ico-license]: https://img.shields.io/github/license/webklex/gohits?style=flat-square
+[ico-status]: https://img.shields.io/website?down_message=Offline&label=Website&style=flat-square&up_message=Online&url=https%3A%2F%2Fhits.webklex.com%2F
+
 [link-website]: https://hits.webklex.com
 [link-releases]: https://github.com/webklex/gohits/releases
-[link-hits]: https://hits.webklex.com/svg/webklex/gohits
 [link-author]: https://github.com/webklex
 [link-contributors]: https://github.com/webklex/gohits/graphs/contributors
-[link-status]: https://img.shields.io/website?down_message=Offline&label=Website&style=flat-square&up_message=Online&url=https%3A%2F%2Fhits.webklex.com%2F
