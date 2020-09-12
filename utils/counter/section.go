@@ -48,11 +48,15 @@ func (s *Section) GetToken() string {
 func (s *Section) AddEntry(entry *Entry) bool {
 	if _, ok := s.Entries[entry.Hash]; !ok {
 		s.Entries[entry.Hash] = entry
-		s.Total += 1
-		s.UpdatedAt = time.Now()
+		s.Increment()
 		return true
 	}
 	return false
+}
+
+func (s *Section) Increment() {
+	s.Total += 1
+	s.UpdatedAt = time.Now()
 }
 
 func (s *Section) initFile(filename string) {

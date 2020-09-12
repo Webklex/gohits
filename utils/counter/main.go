@@ -101,3 +101,9 @@ func (c *Counter) AddEntry(section *Section, entry *Entry) bool {
 
 	return result
 }
+
+func (c *Counter) Increment(section *Section) {
+	c.mx.Lock()
+	section.Increment()
+	c.mx.Unlock()
+}
