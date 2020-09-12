@@ -10,6 +10,7 @@ import (
 	"io"
 	"net"
 	"net/http"
+	"strings"
 )
 
 func (s *Server) handleRequest(writer writerFunc) http.HandlerFunc {
@@ -62,17 +63,23 @@ func (s *Server) csvResponse(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) badgeResponse(w http.ResponseWriter, r *http.Request) {
 
-	host := ""
-	host, _, _ = net.SplitHostPort(r.RemoteAddr)
-	h := sha256.New()
-	h.Write([]byte(host + r.Header.Get("User-Agent")))
-	token := fmt.Sprintf("%x", h.Sum(nil))
-
 	section := s.getSection(r)
-	entry := counter.NewEntry(token)
-
-	if s.Counter.AddEntry(section, entry) {
+	userAgent := r.Header.Get("User-Agent")
+	if strings.Contains(userAgent, "camo"){
+		// Treat camouflaged request as new hit - is likely cached anyways
+		section.Increment()
 		s.activities <- section
+	}else{
+		host, _, _ := net.SplitHostPort(r.RemoteAddr)
+		h := sha256.New()
+		h.Write([]byte(host + userAgent))
+		token := fmt.Sprintf("%x", h.Sum(nil))
+
+		entry := counter.NewEntry(token)
+
+		if s.Counter.AddEntry(section, entry) {
+			s.activities <- section
+		}
 	}
 
 	total := float64(section.Total)
