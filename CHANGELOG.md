@@ -6,7 +6,14 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## [UNRELEASED]
 ### Fixed
-- Session handling fixed and improved
+- NaN
+
+### Added
+- NaN
+
+## [1.0.1] - 2020-09-13
+### Fixed
+- Session handling fixed and improved 
 
 ### Added
 - Handle camouflaged requests as unique hit
