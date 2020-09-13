@@ -9,7 +9,7 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 - NaN
 
 ### Added
-- NaN
+- Head request response added
 
 ## [1.0.1] - 2020-09-13
 ### Fixed
