@@ -6,7 +6,7 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## [UNRELEASED]
 ### Fixed
-- NaN
+- Session handling fixed and improved
 
 ### Added
 - Handle camouflaged requests as unique hit

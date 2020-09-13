@@ -2,7 +2,6 @@ package counter
 
 import (
 	"encoding/xml"
-	"sync"
 	"time"
 )
 
@@ -10,7 +9,6 @@ type Counter struct {
 	Sections map[string]*Section `json:"sections"`
 	File     string              `json:"-"`
 	Duration time.Duration       `json:"-"`
-	mx       *sync.RWMutex       `json:"-"`
 }
 
 type Section struct {

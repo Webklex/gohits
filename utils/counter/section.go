@@ -45,11 +45,17 @@ func (s *Section) GetToken() string {
 	return fmt.Sprintf("%x", h.Sum(nil))
 }
 
-func (s *Section) AddEntry(entry *Entry) bool {
+func (s *Section) AddEntry(entry *Entry, duration time.Duration) bool {
 	if _, ok := s.Entries[entry.Hash]; !ok {
 		s.Entries[entry.Hash] = entry
 		s.Increment()
 		return true
+	} else {
+		if time.Now().After(s.Entries[entry.Hash].Timestamp.Add(duration)) {
+			s.Entries[entry.Hash] = entry
+			s.Increment()
+			return true
+		}
 	}
 	return false
 }

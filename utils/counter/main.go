@@ -1,14 +1,12 @@
 package counter
 
 import (
-	"sync"
 	"time"
 )
 
 func NewCounter(duration time.Duration) *Counter {
 	c := &Counter{
 		Duration: duration,
-		mx:        &sync.RWMutex{},
 	}
 	if c.Sections == nil {
 		c.Sections = make(map[string]*Section)
@@ -29,11 +27,9 @@ func NewEntry(hash string) *Entry {
 
 func (c *Counter) GetSection(username string, repository string) *Section {
 	sectionKey := username + "/" + repository
-	c.mx.Lock()
 	if _, ok := c.Sections[sectionKey]; !ok {
 		c.Sections[sectionKey] = NewSection(username, repository)
 	}
-	c.mx.Unlock()
 	return c.Sections[sectionKey]
 }
 
@@ -74,36 +70,28 @@ func (c *Counter) Run() {
 }
 
 func (c *Counter) RemoveEntry(section *Section, hash string) {
-	c.mx.Lock()
-	if _, ok := section.Entries[hash]; !ok {
+	if _, ok := section.Entries[hash]; ok {
 		delete(section.Entries, hash)
 	}
-	c.mx.Unlock()
 }
 
 func (c *Counter) RemoveSection(sectionKey string) {
-	c.mx.Lock()
-	if _, ok := c.Sections[sectionKey]; !ok {
+	if _, ok := c.Sections[sectionKey]; ok {
 		delete(c.Sections, sectionKey)
 	}
-	c.mx.Unlock()
 }
 
 func (c *Counter) AddEntry(section *Section, entry *Entry) bool {
 	sectionKey := section.GetKey()
 
-	c.mx.Lock()
 	if _, ok := c.Sections[sectionKey]; !ok {
 		c.Sections[sectionKey] = section
 	}
-	result := c.Sections[sectionKey].AddEntry(entry)
-	c.mx.Unlock()
+	result := c.Sections[sectionKey].AddEntry(entry, c.Duration)
 
 	return result
 }
 
 func (c *Counter) Increment(section *Section) {
-	c.mx.Lock()
 	section.Increment()
-	c.mx.Unlock()
 }

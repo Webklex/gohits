@@ -67,7 +67,10 @@ func (s *Server) badgeResponse(w http.ResponseWriter, r *http.Request) {
 	userAgent := r.Header.Get("User-Agent")
 	if strings.Contains(userAgent, "camo"){
 		// Treat camouflaged request as new hit - is likely cached anyways
+
+		s.mx.Lock()
 		section.Increment()
+		s.mx.Unlock()
 		s.activities <- section
 	}else{
 		host, _, _ := net.SplitHostPort(r.RemoteAddr)
@@ -77,9 +80,11 @@ func (s *Server) badgeResponse(w http.ResponseWriter, r *http.Request) {
 
 		entry := counter.NewEntry(token)
 
+		s.mx.Lock()
 		if s.Counter.AddEntry(section, entry) {
 			s.activities <- section
 		}
+		s.mx.Unlock()
 	}
 
 	total := float64(section.Total)
