@@ -302,7 +302,7 @@ If you discover any security related issues, please email github@webklex.com ins
 ## License
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-hits]: https://hits.webklex.com/svg/webklex/gohits
+[ico-hits]: https://hits.webklex.com/svg/webklex/gohits?
 [ico-downloads]: https://img.shields.io/github/downloads/webklex/gohits/total?style=flat-square
 [ico-version]: https://img.shields.io/github/v/release/webklex/gohits?style=flat-square
 [ico-license]: https://img.shields.io/github/license/webklex/gohits?style=flat-square
