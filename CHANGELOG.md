@@ -9,7 +9,15 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 - NaN
 
 ### Added
+- NaN
+
+## [1.0.2] - 2020-09-15
+### Fixed
+- Caching problem fixed
+
+### Added
 - Head request response added
+- Header response added
 
 ## [1.0.1] - 2020-09-13
 ### Fixed
