@@ -20,11 +20,17 @@
     let subscribed = false;
 
     function connect_socket() {
-        socket = new WebSocket(ws_url);
+        try {
+            socket = new WebSocket(ws_url);
+        }catch (e) {
+            return setTimeout(connect_socket,500)
+        }
         socket.onclose = function(event){
+            subscribed = false;
             connect_socket();
         };
         socket.onopen = function(event){
+            subscribed = false;
             socket.send(msg);
         };
         listen();
