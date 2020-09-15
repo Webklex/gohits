@@ -30,6 +30,8 @@ func (s *Server) NewHandler() (http.Handler, error) {
 	mux.HandleFunc("HEAD", "/", func(w http.ResponseWriter, req *http.Request) {})
 
 	mux.GET("/svg/:username/:repository", s.registerHandler(s.badgeResponse))
+	mux.HEAD("/svg/:username/:repository", s.registerHandler(s.badgeHeadResponse))
+
 	mux.GET("/json/:username/:repository", s.registerHandler(s.jsonResponse))
 	mux.GET("/xml/:username/:repository", s.registerHandler(s.xmlResponse))
 	mux.GET("/csv/:username/:repository", s.registerHandler(s.csvResponse))

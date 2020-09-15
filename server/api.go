@@ -11,6 +11,7 @@ import (
 	"net"
 	"net/http"
 	"strings"
+	"time"
 )
 
 func (s *Server) handleRequest(writer writerFunc) http.HandlerFunc {
@@ -63,11 +64,46 @@ func (s *Server) csvResponse(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) badgeResponse(w http.ResponseWriter, r *http.Request) {
 
+	SetHeaders(w)
+	counterStr := s.count(r)
+	badge := fmt.Sprintf(`<?xml version="1.0"?>
+	<svg xmlns="http://www.w3.org/2000/svg" width="80" height="20">
+		<rect width="30" height="20" fill="#555"/>
+		<rect x="30" width="50" height="20" fill="#4c1"/>
+	
+		<rect rx="3" width="80" height="20" fill="transparent"/>
+		<g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
+			<text x="15" y="14">hits</text>
+			<text x="54" y="14">%s</text>
+		</g>
+		<!-- If you have time to help us add descriptive comments please PR! -->
+	</svg>`, counterStr)
+
+	if n, err := io.WriteString(w, badge); err != nil || n <= 0 {
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+}
+
+func (s *Server) badgeHeadResponse(w http.ResponseWriter, r *http.Request) {
+	SetHeaders(w)
+	_ = s.count(r)
+	w.WriteHeader(http.StatusOK)
+}
+
+func (s *Server) getSection(r *http.Request) *counter.Section {
+	username := httpmux.Params(r).ByName("username")
+	repository := httpmux.Params(r).ByName("repository")
+
+	return s.Counter.GetSection(username, repository)
+}
+
+func (s *Server) count(r *http.Request) string {
+
 	section := s.getSection(r)
 	userAgent := r.Header.Get("User-Agent")
 	if strings.Contains(userAgent, "camo"){
 		// Treat camouflaged request as new hit - is likely cached anyways
-
 		s.mx.Lock()
 		section.Increment()
 		s.mx.Unlock()
@@ -96,29 +132,16 @@ func (s *Server) badgeResponse(w http.ResponseWriter, r *http.Request) {
 		counterStr = fmt.Sprintf("%.0fk", total/1000)
 	}
 
-	badge := fmt.Sprintf(`<?xml version="1.0"?>
-	<svg xmlns="http://www.w3.org/2000/svg" width="80" height="20">
-		<rect width="30" height="20" fill="#555"/>
-		<rect x="30" width="50" height="20" fill="#4c1"/>
-	
-		<rect rx="3" width="80" height="20" fill="transparent"/>
-		<g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
-			<text x="15" y="14">hits</text>
-			<text x="54" y="14">%s</text>
-		</g>
-		<!-- If you have time to help us add descriptive comments please PR! -->
-	</svg>`, counterStr)
-
-	w.Header().Set("Content-Type", "image/svg+xml")
-	if n, err := io.WriteString(w, badge); err != nil || n <= 0 {
-		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
-		return
-	}
+	return counterStr
 }
 
-func (s *Server) getSection(r *http.Request) *counter.Section {
-	username := httpmux.Params(r).ByName("username")
-	repository := httpmux.Params(r).ByName("repository")
+func SetHeaders(w http.ResponseWriter) {
+	w.Header().Set("Content-Type", "image/svg+xml;charset=utf-8")
+	// w.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
+	w.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate, max-age=60, s-maxage=60")
 
-	return s.Counter.GetSection(username, repository)
+	loc, _ := time.LoadLocation("UTC")
+	t := time.Now().In(loc)
+	w.Header().Set("date", t.Format("Mon, 2 Jan 2006 15:04:05 MST"))
+	w.Header().Set("expires", t.Add(time.Minute).Format("Mon, 2 Jan 2006 15:04:05 MST"))
 }
