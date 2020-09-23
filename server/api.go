@@ -128,8 +128,10 @@ func (s *Server) count(r *http.Request) string {
 	counterStr := fmt.Sprintf("%.0f", total)
 	if total > 1000000 {
 		counterStr = fmt.Sprintf("%.2fm", total/1000000)
-	} else if total > 1000 {
+	} else if total > 10000 {
 		counterStr = fmt.Sprintf("%.0fk", total/1000)
+	} else if total > 1000 {
+		counterStr = fmt.Sprintf("%.2fk", total/1000)
 	}
 
 	return counterStr
