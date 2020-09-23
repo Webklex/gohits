@@ -25,12 +25,12 @@ function pack() {
 	sha256sum ${OUTPUT_BINARY} | sed 's/\ .*\// /g' >> ${PACKAGE_DIR}/sha256.hash
 	sha512sum ${OUTPUT_BINARY} | sed 's/\ .*\// /g' >> ${PACKAGE_DIR}/sha512.hash
 
-	cat ${PACKAGE_DIR}/sha256.hash
-
   echo "Packing ${PACKAGE_NAME}"
 	cp ${OUTPUT_BINARY} ${PACKAGE_DIR}
 	cp README.md ${PACKAGE_DIR}
 	cp LICENSE ${PACKAGE_DIR}
+
+	cat ${PACKAGE_DIR}/sha256.hash
 
 	cd ${OUTPUT_DIR}
 	sync
@@ -40,22 +40,25 @@ function pack() {
 }
 
 echo "-------------------------------------"
-echo "Build directory: ${OUTPUT_DIR}"
-echo "Build version:   ${BUILD_VERSION}"
-echo "Build number:    ${BUILD_NUMBER}"
-echo "Build commit:    ${BUILD_COMMIT}"
+echo "Configuration"
+echo "-------------------------------------"
+echo "Directory: ${OUTPUT_DIR}"
+echo "Version:   ${BUILD_VERSION}"
+echo "Number:    ${BUILD_NUMBER}"
+echo "Commit:    ${BUILD_COMMIT}"
 echo "-------------------------------------"
 echo ""
 
 echo "-------------------------------------"
-echo "Build preparation"
+echo "Preparation"
+echo "-------------------------------------"
 echo "Generating assets.."
 go-bindata-assetfs htdocs/assets/...
-echo "-------------------------------------"
 echo ""
 
 echo "-------------------------------------"
 echo "Building individual distributions"
+echo "-------------------------------------"
 echo "Building for Linux.."
 go build -ldflags "-w -s -X main.buildNumber=${BUILD_NUMBER} -X main.buildVersion=${BUILD_VERSION}" -o ${OUTPUT_DIR}/${BINARY_NAME}
 sleep 1
