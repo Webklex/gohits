@@ -10,6 +10,7 @@ import (
 	"io"
 	"net"
 	"net/http"
+	"regexp"
 	"strings"
 	"time"
 )
@@ -92,8 +93,8 @@ func (s *Server) badgeHeadResponse(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) getSection(r *http.Request) *counter.Section {
-	username := httpmux.Params(r).ByName("username")
-	repository := httpmux.Params(r).ByName("repository")
+	username := sanitize(httpmux.Params(r).ByName("username"))
+	repository := sanitize(httpmux.Params(r).ByName("repository"))
 
 	return s.Counter.GetSection(username, repository)
 }
@@ -137,9 +138,13 @@ func (s *Server) count(r *http.Request) string {
 	return counterStr
 }
 
+func sanitize(in string) string {
+	reg, _ := regexp.Compile("[^a-zA-Z0-9\\-_.]+")
+	return reg.ReplaceAllString(in, "_")
+}
+
 func SetHeaders(w http.ResponseWriter) {
 	w.Header().Set("Content-Type", "image/svg+xml;charset=utf-8")
-	// w.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
 	w.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate, max-age=60, s-maxage=60")
 
 	loc, _ := time.LoadLocation("UTC")
