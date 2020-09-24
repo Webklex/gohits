@@ -11,6 +11,10 @@ type Build struct {
 }
 
 type Config struct {
+	AppName		string `json:"APP_NAME"`
+	AppDescription		string `json:"APP_DESCRIPTION"`
+	AppFooter		string `json:"APP_FOOTER"`
+
 	FastOpen   bool   `json:"TCP_FAST_OPEN"`
 	Naggle     bool   `json:"TCP_NAGGLE"`
 	ServerAddr string `json:"HTTP"`

@@ -22,6 +22,10 @@ func DefaultConfig() *Config {
 	dir, _ := os.Getwd()
 
 	return &Config{
+		AppName:   "GoHits",
+		AppDescription:   "An easy way to track your page or project views (\"hits\") of any GitHub or online project.",
+		AppFooter:   "&copy; 2020 <a href=\"https://www.webklex.com/\" target=\"_blank\" class=\"text-muted\">webklex.com</a>",
+
 		FastOpen:   false,
 		Naggle:     false,
 		ServerAddr: "localhost:8080",
@@ -63,6 +67,8 @@ func DefaultConfig() *Config {
 // AddFlags adds configuration flags to the given FlagSet.
 func (c *Config) AddFlags(fs *flag.FlagSet) {
 	defer envconfig.Process("gohits", c)
+
+	fs.StringVar(&c.AppName, "name", c.AppName, "Displayed app name")
 
 	fs.StringVar(&c.ServerAddr, "http", c.ServerAddr, "Address in form of ip:port to listen")
 	fs.StringVar(&c.TLSServerAddr, "https", c.TLSServerAddr, "Address in form of ip:port to listen")

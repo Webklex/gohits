@@ -1,12 +1,12 @@
 {{ define "index" }}
-    {{ template "layout/header" }}
+    {{ template "layout/header" . }}
 
     <div class="pt-4 text-center">
         <h1>
-            GoHits visitor counter
+            {{ .AppName }}
         </h1>
         <p class="lead pb-0 mb-2">
-            An easy way to track your page or project views ("hits") of any GitHub or online project.
+            {{ .AppDescription }}
         </p>
         <img src="https://hits.webklex.com/svg/webklex/gohits" alt="Hits" />
         <img src="https://img.shields.io/github/downloads/webklex/gohits/total?style=flat-square" alt="Total Downloads" />
@@ -73,5 +73,5 @@
         </div>
     </div>
 
-    {{ template "layout/footer" }}
+    {{ template "layout/footer" . }}
 {{ end }}
