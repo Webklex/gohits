@@ -6,6 +6,13 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## [UNRELEASED]
 ### Fixed
+- NaN
+
+### Added
+- NaN
+
+## [1.0.3] - 2020-09-15
+### Fixed
 - Counter gradient changed
 
 ### Added
